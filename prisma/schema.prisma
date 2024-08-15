@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  uuid String @id @default(uuid())
+  firstName String 
+  lastName String
+  email String @unique
+  created_at DateTime @default(now())
+  order Orders[]
+  @@map("users")
+}
+
+model Products {
+  uuid String @id @default(uuid())
+  name String
+  description String
+  price Decimal
+  created_at DateTime @default(now())
+  orderItems OrderItems[]
+  productCategories ProductCategories[]
+  @@map("products")
+}
+
+model Orders {
+  uuid String @id @default(uuid())
+  users Users @relation(fields: [userUuid], references: [uuid])
+  userUuid String
+  orderItems OrderItems[]
+  @@map("orders")
+}
+
+model OrderItems {
+  uuid String @id @default(uuid())
+  orders Orders @relation(fields: [orderUuid], references: [uuid])
+  orderUuid String
+  products Products @relation(fields: [productUuid], references: [uuid])
+  productUuid String
+  @@map("order_items")
+}
+
+model Categories {
+  uuid String @id @default(uuid())
+  name String
+  productCategories ProductCategories[]
+  @@map("categories")
+}
+
+model ProductCategories {
+  uuid String @id @default(uuid())
+  categories Categories @relation(fields: [categoryUuid], references: [uuid])
+  categoryUuid String
+  products Products @relation(fields: [productUuid], references: [uuid])
+  productUuid String
+  created_at DateTime @default(now())
+  @@map("product_categories")
+}
