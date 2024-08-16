@@ -18,52 +18,81 @@ model Users {
   firstName String 
   lastName String
   email String @unique
+  password_hash String
+  refresh_token_hash String
   created_at DateTime @default(now())
   order Orders[]
-  @@map("users")
-}
 
-model Products {
-  uuid String @id @default(uuid())
-  name String
-  description String
-  price Decimal
-  created_at DateTime @default(now())
-  orderItems OrderItems[]
-  productCategories ProductCategories[]
-  @@map("products")
+  @@map("users")
 }
 
 model Orders {
   uuid String @id @default(uuid())
-  users Users @relation(fields: [userUuid], references: [uuid])
-  userUuid String
-  orderItems OrderItems[]
+  user Users @relation(fields: [user_uuid], references: [uuid])
+  user_uuid String
+  ordered_at DateTime @default(now())
+  order_items OrderItems[]
+
   @@map("orders")
 }
 
 model OrderItems {
   uuid String @id @default(uuid())
-  orders Orders @relation(fields: [orderUuid], references: [uuid])
-  orderUuid String
-  products Products @relation(fields: [productUuid], references: [uuid])
-  productUuid String
+  order Orders @relation(fields: [order_uuid], references: [uuid])
+  order_uuid String
+  sneaker Sneakers @relation(fields: [sneaker_uuid], references: [uuid])
+  sneaker_uuid String
+  quantity Int
+  purchase_price Decimal
+
   @@map("order_items")
 }
 
-model Categories {
+model Sneakers {
   uuid String @id @default(uuid())
-  name String
-  productCategories ProductCategories[]
-  @@map("categories")
+  model Models @relation(fields: [model_uuid], references: [uuid])
+  model_uuid String @unique
+  description String
+  quantity Int
+  price Decimal
+  sneaker_sizes SneakerSizes[]
+  order_items OrderItems[]
+
+  @@map("sneakers")
 }
 
-model ProductCategories {
+model SneakerSizes {
   uuid String @id @default(uuid())
-  categories Categories @relation(fields: [categoryUuid], references: [uuid])
-  categoryUuid String
-  products Products @relation(fields: [productUuid], references: [uuid])
-  productUuid String
-  created_at DateTime @default(now())
-  @@map("product_categories")
+  sizes Sizes @relation(fields: [size_uuid], references: [uuid])
+  size_uuid String
+  sneaker Sneakers @relation(fields: [sneaker_uuid], references: [uuid])
+  sneaker_uuid String
+
+  @@map("sneaker_sizes")
+}
+
+model Sizes {
+  uuid String @id @default(uuid())
+  size Decimal @unique
+  sneaker_sizes SneakerSizes[]
+
+  @@map("sizes")
+}
+
+model Models {
+  uuid String @id @default(uuid())
+  brand Brands @relation(fields: [brand_uuid], references: [uuid])
+  brand_uuid String
+  model String
+  sneaker Sneakers[]
+
+  @@map("models")
+}
+
+model Brands {
+  uuid String @id @default(uuid())
+  brand String @unique
+  model Models[]
+
+  @@map("brands")
 }

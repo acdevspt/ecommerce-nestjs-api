@@ -8,10 +8,11 @@ import { BrandsModule } from './brands/brands.module';
 import { ModelsController } from './models/models.controller';
 import { ModelsService } from './models/models.service';
 import { ModelsModule } from './models/models.module';
+import { SneakersModule } from './sneakers/sneakers.module';
 
 @Module({
   controllers: [AppController, ModelsController],
   providers: [AppService, ModelsService],
-  imports: [SizesModule, BrandsModule, ModelsModule],
+  imports: [SizesModule, BrandsModule, ModelsModule, SneakersModule],
 })
 export class AppModule {}
