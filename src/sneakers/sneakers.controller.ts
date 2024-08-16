@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/common';
 import { SneakersService } from './sneakers.service';
 import { SneakersDto, SneakerSizesDto, SneakerUpdateDto } from './dto/sneakers.dto';
 import { Sneakers } from '@prisma/client';
@@ -51,5 +51,11 @@ export class SneakersController {
     async updateSneakerQuantity(@Body() dto: SneakerUpdateDto) {
         console.log(dto)
         return this.sneakerService.updateQuantity(dto.sneaker_uuid, dto.quantity)
+    }
+    
+    @Delete("/delete")
+    @HttpCode(HttpStatus.OK)
+    async removeSneaker(@Body() data: string) {
+        return this.sneakerService.removeSneaker(data["sneaker_uuid"])
     }
 }

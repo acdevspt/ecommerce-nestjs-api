@@ -69,6 +69,7 @@ export class SneakersService {
             throw new InternalServerErrorException("Something went wrong!") 
         }
     }
+
     async updateQuantity(sneakerUuid: string, newQuantity: number) {
         try {
             return await this.prisma.sneakers.update({
@@ -78,6 +79,25 @@ export class SneakersService {
                 data: {
                     quantity: newQuantity
                 }
+            })
+        } catch (error){
+            console.log(error.message)
+            throw new InternalServerErrorException("Something went wrong!") 
+        }
+    }
+
+    async removeSneaker(sneakerUuid: string) {
+        try {   
+            await this.prisma.sneakerSizes.deleteMany({
+                where: {
+                    sneaker_uuid: sneakerUuid
+                },
+            })
+
+            return await this.prisma.sneakers.delete({
+                where: {
+                    uuid: sneakerUuid
+                },
             })
         } catch (error){
             console.log(error.message)
