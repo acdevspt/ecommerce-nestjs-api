@@ -44,8 +44,14 @@ export class SneakersService {
         }
     }
 
-    async getSneakersByBrand() {
-
+    async getSneakersByBrand(brand: string) {
+        try {
+            return await this.prisma.$queryRaw`SELECT * FROM sneakers JOIN models ON sneakers.model_uuid = models.uuid 
+            JOIN brands ON models.brand_uuid = brands.uuid WHERE brands.brand = ${brand}`
+        } catch (error) {
+            console.log(error)
+            throw new InternalServerErrorException("Something went wrong!") 
+        }
     }
 
     async updatePrice(sneakerUuid: string, newPrice: Decimal) {

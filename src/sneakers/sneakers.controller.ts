@@ -27,6 +27,12 @@ export class SneakersController {
         return this.sneakerService.getSneakersBySize(data["size"])
     }
 
+    @Get("/by/brand")
+    @HttpCode(HttpStatus.OK)
+    async getSneakersByBrand(@Body() data: string) {
+        return this.sneakerService.getSneakersByBrand(data["brand"])
+    }
+
     @Post("/set/size")
     @HttpCode(HttpStatus.CREATED)
     async addSizeToSneakers(@Body() dto: SneakerSizesDto) {
