@@ -9,10 +9,11 @@ import { ModelsController } from './models/models.controller';
 import { ModelsService } from './models/models.service';
 import { ModelsModule } from './models/models.module';
 import { SneakersModule } from './sneakers/sneakers.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   controllers: [AppController, ModelsController],
   providers: [AppService, ModelsService],
-  imports: [SizesModule, BrandsModule, ModelsModule, SneakersModule],
+  imports: [SizesModule, BrandsModule, ModelsModule, SneakersModule, UsersModule, OrdersModule],
 })
 export class AppModule {}

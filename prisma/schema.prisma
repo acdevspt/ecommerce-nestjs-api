@@ -42,6 +42,8 @@ model OrderItems {
   order_uuid String
   sneaker Sneakers @relation(fields: [sneaker_uuid], references: [uuid])
   sneaker_uuid String
+  sneakerSizes SneakerSizes @relation(fields: [sneaker_size_uuid], references: [uuid])
+  sneaker_size_uuid String
   quantity Int
   purchase_price Decimal
 
@@ -67,6 +69,7 @@ model SneakerSizes {
   size_uuid String
   sneaker Sneakers @relation(fields: [sneaker_uuid], references: [uuid])
   sneaker_uuid String
+  orderItem OrderItems[]
 
   @@map("sneaker_sizes")
 }
