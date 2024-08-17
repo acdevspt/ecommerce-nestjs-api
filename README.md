@@ -71,3 +71,87 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+
+## Documentação da API
+
+### Sneakers
+
+#### Add new sneaker
+
+```http
+  POST /sneakers
+```
+
+| Body   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `model_uuid` | `string` | **Mandatory**. Sneakers Model UUID |
+| `description` | `string` | **Mandatory**. Sneakers Description |
+| `quantity` | `integer` | **Mandatory**. Stock Quantity |
+| `price` | `decimal` | **Mandatory**. Sneakers Price |
+
+
+#### Get all the sneakers
+
+```http
+  GET /sneakers
+```
+
+| Query   | Type      | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `brand` (optional)      | `string` | **Mandatory**. The sneakers brand name |
+
+
+#### Deletes a specific sneaker
+
+```http
+  DELETE /sneakers/3e563eb4-efdd-406f-af59-d6b71a4c5c16
+```
+
+| Param   | Type      | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `sneaker_uuid`       | `string` | **Mandatory**. The sneakers uuid |
+
+### Users
+
+#### Add new user
+
+```http
+  POST /users
+```
+
+| Body   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `first_name` | `string` | **Mandatory**. User first name |
+| `last_name` | `string` | **Mandatory**. User last name |
+| `email` | `integer` | **Mandatory**. User email |
+| `password` | `decimal` | **Mandatory**. User password |
+
+#### Get all the users
+
+```http
+  GET /users
+```
+
+#### Get the user orders
+
+```http
+  GET /users/3e563eb4-efdd-406f-af59-d6b71a4c5c16/orders
+```
+
+| Param   | Type      | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `user_uuid`       | `string` | **Mandatory**. The user uuid |
+
+
+
+#### Delete a specific user
+
+```http
+  DELETE /users/3e563eb4-efdd-406f-af59-d6b71a4c5c16
+```
+
+| Param   | Type      | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `user_uuid`       | `string` | **Mandatory**. The user uuid |
