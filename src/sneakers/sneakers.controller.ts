@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { SneakersService } from './sneakers.service';
-import { SneakersDto, SneakerSizesDto, SneakerUpdateDto } from './dto/sneakers.dto';
+import { SneakersDto } from './dto/sneakers.dto';
 import { Sneakers } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 
@@ -8,54 +8,60 @@ import { Decimal } from '@prisma/client/runtime/library';
 export class SneakersController {
     constructor(private sneakerService: SneakersService) {}
 
+    // create a new sneaker
     @Post()
     @HttpCode(HttpStatus.CREATED)
     async addSneaker(@Body() dto: SneakersDto) {
         return this.sneakerService.addSneaker(dto)
     }
 
+    // delete a specific sneaker
+    @Delete("/:sneaker_uuid")
+    @HttpCode(HttpStatus.OK)
+    async removeSneaker(@Param("sneaker_uuid") sneakerUuid: string) {
+        return this.sneakerService.removeSneaker(sneakerUuid)
+    }
+
+    // get all sneakers or by brand with an option query parameter
     @Get()
     @HttpCode(HttpStatus.OK)
-    async getSneakers() {
+    async getSneakers(@Query("brand") brand: string) {
+        if (brand) {
+            console.log(brand)
+            return this.sneakerService.getSneakersByBrand(brand)
+        } 
         return this.sneakerService.getSneakers()
     }
 
-    @Get("/by/size")
-    @HttpCode(HttpStatus.OK)
-    async getSneakersBySize(@Body() data: string) {
-        console.log(data["size"])
-        return this.sneakerService.getSneakersBySize(data["size"])
-    }
-
-    @Get("/by/brand")
-    @HttpCode(HttpStatus.OK)
-    async getSneakersByBrand(@Body() data: string) {
-        return this.sneakerService.getSneakersByBrand(data["brand"])
-    }
-
-    @Post("/set/size")
+    // define a sneaker size
+    @Post("/:sneaker_uuid/size")
     @HttpCode(HttpStatus.CREATED)
-    async addSizeToSneakers(@Body() dto: SneakerSizesDto) {
-        return this.sneakerService.addSizeToSneaker(dto)
+    async addSizeToSneakers(
+        @Param("sneaker_uuid") sneakerUuid: string,
+        @Body() data: string
+    ) {
+        console.log(sneakerUuid)
+        console.log(data["size"])
+        return this.sneakerService.addSizeToSneaker(sneakerUuid, data["size"])
     }
 
-    @Put("/update/price")
+    // update a sneaker price
+    @Patch("/:sneaker_uuid/price")
     @HttpCode(HttpStatus.OK)
-    async updateSneakerPrice(@Body() dto: SneakerUpdateDto) {
-        console.log(dto)
-        return this.sneakerService.updatePrice(dto.sneaker_uuid, dto.price)
+    async updateSneakerPrice(
+        @Param("sneaker_uuid") sneakerUuid: string,
+        @Body() data: string
+    ) {
+        return this.sneakerService.updatePrice(sneakerUuid, data["price"])
     }
 
-    @Put("/update/quantity")
+    // update the sneaker stock quantity
+    @Patch("/:sneaker_uuid/quantity")
     @HttpCode(HttpStatus.OK)
-    async updateSneakerQuantity(@Body() dto: SneakerUpdateDto) {
-        console.log(dto)
-        return this.sneakerService.updateQuantity(dto.sneaker_uuid, dto.quantity)
-    }
-    
-    @Delete("/delete")
-    @HttpCode(HttpStatus.OK)
-    async removeSneaker(@Body() data: string) {
-        return this.sneakerService.removeSneaker(data["sneaker_uuid"])
+    async updateSneakerQuantity(
+        @Param("sneaker_uuid") sneakerUuid: string,
+        @Body() data: string
+    ) {
+        return this.sneakerService.updateQuantity(sneakerUuid, data["quantity"])
     }
 }

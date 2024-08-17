@@ -7,11 +7,6 @@ export class SneakersDto {
   price: Decimal
 }
 
-export class SneakerSizesDto {
-    size_uuid: string
-    sneaker_uuid: string
-}
-
 export class SneakerUpdateDto {
     sneaker_uuid: string
     price: Decimal

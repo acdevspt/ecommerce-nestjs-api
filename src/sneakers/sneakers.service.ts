@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { SneakersDto, SneakerSizesDto } from './dto/sneakers.dto';
+import { SneakersDto } from './dto/sneakers.dto';
 import { Decimal } from '@prisma/client/runtime/library';
 
 @Injectable()
@@ -25,10 +25,20 @@ export class SneakersService {
         }
     }
 
-    async addSizeToSneaker(dto: SneakerSizesDto) {
+    async addSizeToSneaker(sneakerUuid: string, size: Decimal) {
         try {
+            
+            const sizes = await this.prisma.sizes.create({
+                data: {
+                    size: size
+                }
+            })
+
             return await this.prisma.sneakerSizes.create({
-                data: dto
+                data: {
+                    sneaker_uuid: sneakerUuid,
+                    size_uuid: sizes.uuid
+                }
             })
         } catch {
             throw new InternalServerErrorException("Something went wrong!") 
