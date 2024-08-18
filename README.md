@@ -92,7 +92,7 @@ Nest is [MIT licensed](LICENSE).
 | `price` | `decimal` | **Mandatory**. Sneakers Price |
 
 
-#### Get all the sneakers
+#### Get all sneakers
 
 ```http
   GET /sneakers
@@ -128,7 +128,7 @@ Nest is [MIT licensed](LICENSE).
 | `email` | `integer` | **Mandatory**. User email |
 | `password` | `decimal` | **Mandatory**. User password |
 
-#### Get all the users
+#### Get all users
 
 ```http
   GET /users
@@ -155,3 +155,52 @@ Nest is [MIT licensed](LICENSE).
 | Param   | Type      | Description                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `user_uuid`       | `string` | **Mandatory**. The user uuid |
+
+
+### Brands
+
+#### Add new brand
+
+```http
+  POST /sneakers/brands
+```
+
+| Body   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `name` | `string` | **Mandatory**. Brand name |
+
+#### Get all brands
+
+```http
+  GET /sneakers/brands
+```
+
+### Models
+
+#### Add new user
+
+```http
+  POST /sneakers/models
+```
+
+| Body   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `name` | `string` | **Mandatory**. Model name |
+| `brand_uuid` | `string` | **Mandatory**. Brand uuid that owns the model |
+
+
+#### Get all models
+
+```http
+  GET /sneakers/brands
+```
+
+#### Get the model brand
+
+```http
+  GET /sneakers/models/3e563eb4-efdd-406f-af59-d6b71a4c5c16/brand
+```
+
+| Param   | Type      | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `brand_uuid`       | `string` | **Mandatory**. Brand uuid |
