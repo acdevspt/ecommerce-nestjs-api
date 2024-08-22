@@ -31,7 +31,7 @@ $ npm run test:cov
 ```
 
 
-## Documentação da API
+## API Documentation
 
 ### Sneakers
 
@@ -161,3 +161,8 @@ $ npm run test:cov
 | Param   | Type      | Description                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `brand_uuid`       | `string` | **Mandatory**. Brand uuid |
+
+
+## Database Diagram
+
+![Database Diagram](https://i.imgur.com/CRyUg5I.png)
